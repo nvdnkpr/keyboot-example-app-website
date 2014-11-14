@@ -1,4 +1,4 @@
-var EventEmitter = require('events').EventEmitter;
+var keyboot = require('keyboot');
 
 var form = document.querySelector('form');
 form.addEventListener('submit', function (ev) {
@@ -8,6 +8,7 @@ form.addEventListener('submit', function (ev) {
     var boot = keyboot(href, {
         permissions: [ 'id', 'sign', 'verify' ]
     });
+    
     boot.on('pending', function () {
         clear();
         var m = document.querySelector('#pending');
@@ -29,6 +30,14 @@ form.addEventListener('submit', function (ev) {
         var m = document.querySelector('#approve');
         m.style.display = 'block';
     });
+    boot.on('close', clear);
+    
+    var signOut = document.querySelector('button.sign-out');
+    signOut.addEventListener('click', function fn () {
+        this.removeEventListener('click', fn);
+        boot.close();
+    });
+    
     function clear () {
         form.style.display = 'block';
         var msgs = document.querySelectorAll('.msg');
@@ -37,52 +46,3 @@ form.addEventListener('submit', function (ev) {
         }
     }
 });
-
-function keyboot (href, permissions) {
-    var seq_ = 0;
-    createIframe(function (frame) {
-        var request = {
-            sequence: seq_,
-            action: 'request',
-            permissions: [ 'id', 'sign', 'verify' ]
-        };
-        frame.contentWindow.postMessage(
-            'keyboot!' + JSON.stringify(request), href
-        );
-    });
-    
-    window.addEventListener('message', function (ev) {
-        if (!/^keyboot!/.test(ev.data)) return;
-        try { var data = JSON.parse(ev.data.replace(/^keyboot!/, '')) }
-        catch (err) { return }
-        
-        if (data.sequence !== seq_) return;
-        
-        if (data.response === 'approved') {
-            emitter.emit('approve');
-        }
-        else if (data.response === 'rejected') {
-            emitter.emit('reject');
-        }
-        else if (data.response === 'pending') {
-            emitter.emit('pending');
-        }
-        else if (data.response === 'revoke') {
-            emitter.emit('revoke');
-        }
-    });
-    
-    var emitter = new EventEmitter;
-    return emitter;
-}
-
-function createIframe (cb) {
-    var iframe = document.createElement('iframe');
-    iframe.addEventListener('load', function () {
-        cb(iframe);
-    });
-    iframe.setAttribute('src', 'http://localhost:9005');
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    return iframe;
-}
