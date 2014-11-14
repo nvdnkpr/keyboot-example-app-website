@@ -20,6 +20,9 @@ form.addEventListener('submit', function (ev) {
         clear();
         document.querySelector('#reject').style.display = 'block';
     });
+    boot.on('revoke', function () {
+        clear();
+    });
     boot.on('approve', function () {
         clear();
         form.style.display = 'none';
@@ -27,6 +30,7 @@ form.addEventListener('submit', function (ev) {
         m.style.display = 'block';
     });
     function clear () {
+        form.style.display = 'block';
         var msgs = document.querySelectorAll('.msg');
         for (var i = 0; i < msgs.length; i++) {
             msgs[i].style.display = 'none';
@@ -62,6 +66,9 @@ function keyboot (href, permissions) {
         }
         else if (data.response === 'pending') {
             emitter.emit('pending');
+        }
+        else if (data.response === 'revoke') {
+            emitter.emit('revoke');
         }
     });
     
