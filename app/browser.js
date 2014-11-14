@@ -48,7 +48,8 @@ form.addEventListener('submit', function (ev) {
         var txt = write.querySelector('textarea').value;
         boot.sign(txt, function (err, result) {
             if (err) console.error(err);
-            write.querySelector('.result').textContent = result;
+            var str = Buffer(result).toString('base64');
+            write.querySelector('.result').textContent = str;
         });
     }
     
