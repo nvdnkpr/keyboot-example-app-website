@@ -6,14 +6,15 @@
     "watch-js": "watchify app/browser.js -dv -o app/static/bundle.js",
     "watch": "npm run watch-js & onchange app/static/* -- npm run inline",
     "start": "hyperboot server",
+    "start-dev": "ecstatic app/static",
     "release": "npm run build && hyperboot release app/static/bundle.html -n 'keyboot example'"
   },
   "dependencies": {
     "browserify": "^6.3.3",
-    "ecstatic": "^0.5.6",
+    "ecstatic": "~0.5.6",
     "html-inline": "^1.1.0",
     "hyperboot": "^2.0.6",
-    "onchange": "0.0.2",
+    "onchange": "~0.0.2",
     "watchify": "^2.1.1"
   }
 }

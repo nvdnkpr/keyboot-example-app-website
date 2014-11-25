@@ -22,7 +22,7 @@ function signIn (url) {
     });
     
     boot.on('pending', function () {
-        clear();
+        form.style.display = 'none';
         var m = document.querySelector('#pending');
         var link = m.querySelector('a');
         m.style.display = 'block';
@@ -35,6 +35,7 @@ function signIn (url) {
     });
     boot.on('revoke', function () {
         clear();
+        localStorage.removeItem('keyboot!url');
     });
     boot.on('approve', function () {
         clear();
