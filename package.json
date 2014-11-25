@@ -15,6 +15,7 @@
     "ecstatic": "~0.5.6",
     "html-inline": "^1.1.0",
     "hyperboot": "^2.0.6",
+    "keyboot": "^2.0.0",
     "onchange": "~0.0.2",
     "watchify": "^2.1.1"
   }
