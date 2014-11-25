@@ -20,3 +20,14 @@ $ npm start -- -p 8000
 
 Now at `http://localhost:8000` you can log in with the URL of a keyboot app and
 sign messages after logging in.
+
+# building for development
+
+To iterate without building a full release every time, just do:
+
+```
+$ npm run dev -- -p 8000
+```
+
+This starts up watchify to rebundle browser source and hosts a static file
+server on `8000`.
