@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "build-js": "browserify app/browser.js -o app/static/bundle.js",
+    "build-html": "html-inline app/static/index.html > app/static/bundle.html",
+    "build": "npm run build-js && npm run build-html",
+    "watch-js": "watchify app/browser.js -dv -o app/static/bundle.js",
+    "watch": "npm run watch-js & onchange app/static/* -- npm run inline",
+    "start": "hyperboot server",
+    "release": "npm run build && hyperboot release app/static/bundle.html -n 'keyboot example'"
+  },
+  "dependencies": {
+    "browserify": "^6.3.3",
+    "ecstatic": "^0.5.6",
+    "html-inline": "^1.1.0",
+    "hyperboot": "^2.0.6",
+    "onchange": "0.0.2",
+    "watchify": "^2.1.1"
+  }
+}
