@@ -8,7 +8,11 @@ form.addEventListener('submit', function (ev) {
     
     var href = form.elements.id.value;
     var boot = keyboot(href, {
-        permissions: [ 'id', 'sign', 'verify' ]
+        permissions: [ 'fingerprint', 'sign' ]
+    });
+    boot.fingerprint(function (err, result) {
+        if (err) return console.error(err)
+        document.querySelector('#fingerprint').textContent = result;
     });
     
     boot.on('pending', function () {

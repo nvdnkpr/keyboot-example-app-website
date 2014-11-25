@@ -1,4 +1,16 @@
 <html>
+  <head>
+    <style>
+      .result {
+        word-break: break-all;
+        width: 400px;
+        margin-top: 1em;
+      }
+      #approve {
+        margin-bottom: 1em;
+      }
+    </style>
+  </head>
   <body>
     <form>
       <input type="text" name="id">
@@ -11,6 +23,9 @@
       Authorization rejected.
     </div>
     <div id="approve" class="msg" style="display: none;">
+      <div>
+        signed in as <span id="fingerprint">...</span>
+      </div>
       <button class="sign-out">Sign out</button>
     </div>
     <div class="write" style="display: none;">
