@@ -12,6 +12,12 @@ var prevUrl = localStorage.getItem('keyboot!url');
 if (prevUrl) signIn(prevUrl)
 else clear()
 
+var hboot = require('hyperboot/rpc');
+var config = document.querySelector('#config');
+config.addEventListener('click', function (ev) {
+    hboot.toggle();
+});
+
 function signIn (url) {
     var boot = keyboot(url, {
         permissions: [ 'fingerprint', 'sign' ]
