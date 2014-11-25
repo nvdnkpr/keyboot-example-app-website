@@ -1,3 +1,8 @@
+# keyboot-example-app
+
+This repository is an example of how to build an application that uses keyboot
+for offline single sign-on authentication.
+
 # getting started
 
 first, install the necessary dependencies:

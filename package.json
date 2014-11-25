@@ -1,4 +1,7 @@
 {
+  "name": "keyboot-example-app",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "build-js": "browserify app/browser.js -o app/static/bundle.js",
     "build-html": "html-inline app/static/index.html > app/static/bundle.html",
