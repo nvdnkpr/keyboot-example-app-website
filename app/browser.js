@@ -5,9 +5,15 @@ var write = document.querySelector('.write');
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    
-    var href = form.elements.id.value;
-    var boot = keyboot(href, {
+    signIn(form.elements.url.value);
+});
+
+var prevUrl = localStorage.getItem('keyboot!url');
+if (prevUrl) signIn(prevUrl)
+else clear()
+
+function signIn (url) {
+    var boot = keyboot(url, {
         permissions: [ 'fingerprint', 'sign' ]
     });
     boot.fingerprint(function (err, result) {
@@ -20,8 +26,8 @@ form.addEventListener('submit', function (ev) {
         var m = document.querySelector('#pending');
         var link = m.querySelector('a');
         m.style.display = 'block';
-        link.setAttribute('href', href);
-        link.textContent = href;
+        link.setAttribute('href', url);
+        link.textContent = url;
     });
     boot.on('reject', function () {
         clear();
@@ -36,13 +42,17 @@ form.addEventListener('submit', function (ev) {
         var m = document.querySelector('#approve');
         m.style.display = 'block';
         write.style.display = 'block';
+        localStorage.setItem('keyboot!url', url);
     });
-    boot.on('close', clear);
+    boot.on('close', function () {
+        write.querySelector('button').removeEventListener('click', onsign);
+        clear();
+        localStorage.removeItem('keyboot!url', url);
+    });
     
     var signOut = document.querySelector('button.sign-out');
     signOut.addEventListener('click', function fn () {
         this.removeEventListener('click', fn);
-        write.querySelector('button').removeEventListener('click', onsign);
         boot.close();
     });
     
@@ -56,13 +66,13 @@ form.addEventListener('submit', function (ev) {
             write.querySelector('.result').textContent = str;
         });
     }
-    
-    function clear () {
-        form.style.display = 'block';
-        write.style.display = 'none';
-        var msgs = document.querySelectorAll('.msg');
-        for (var i = 0; i < msgs.length; i++) {
-            msgs[i].style.display = 'none';
-        }
+}
+
+function clear () {
+    form.style.display = 'block';
+    write.style.display = 'none';
+    var msgs = document.querySelectorAll('.msg');
+    for (var i = 0; i < msgs.length; i++) {
+        msgs[i].style.display = 'none';
     }
-});
+}
